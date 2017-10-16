@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Settings>
+    <Authentication>
+        <SkyTapAPIUser>YourSkyTapUsername</SkyTapAPIUser>
+        <SkyTapAPIPass>YourSkyTapAPIKey</SkyTapAPIPass>
+    </Authentication>
+    <Template>
+        <CopyID>1167853</CopyID>
+        <NewOwnerID>80356</NewOwnerID>
+        <Regions>
+            <Region1>EMEA</Region1>
+            <Region2>APAC</Region2>
+        </Regions>
+        <Environments>
+            <Env1>DEV</Env1>
+            <Env2>QA</Env2>
+            <Env3>GA</Env3>
+        </Environments>
+</Settings>
