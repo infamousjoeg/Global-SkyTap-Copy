@@ -25,7 +25,7 @@ function Set-TemplateCopy ([string]$basic_auth, [int]$template_id, [string]$targ
 
 }
 
-function Set-TemplateOwner ([string]$basic_auth, [int]$template_id, [string]$owner) {
+function Set-TemplateOwner ([string]$basic_auth, [int]$template_id, [string]$target_owner) {
     
     # Set URI endpoint to send call to
     $uri = "https://cloud.skytap.com/${template_id}.json"
@@ -34,7 +34,7 @@ function Set-TemplateOwner ([string]$basic_auth, [int]$template_id, [string]$own
     $headers = @{"Accept" = "application/json"; Authorization=("Basic {0}" -f $basic_auth)}
 
     $body = @{
-        "owner" = "80356"
+        "owner" = "${target_owner}"
     } | ConvertTo-Json
 
     # Send the API call
@@ -85,32 +85,46 @@ $base64AuthInfo = Set-SkyTapAuth -username $ConfigFile.Settings.Authentication.S
 
 foreach ($region in $ConfigFile.Settings.Template.Regions) {
     
-    $responseCopyTemplate = Set-TemplateCopy -basic_auth $base64AuthInfo -template_id $ConfigFile.Settings.Template.CopyID -target_region $region
+    foreach ($env in $ConfigFile.Settings.Template.Environments) {
 
-    if ($responseCopyTemplate) {
+        # Begin copy template process
+        $responseCopyTemplate = Set-TemplateCopy -basic_auth $base64AuthInfo -template_id $ConfigFile.Settings.Template.CopyID -target_region $region
 
-        Write-Host $responseCopyTemplate -ForegroundColor Green
-        
-        # Set variables based on response values
-        $responseCopyId = $responseCopyTemplate.id
-        $responseCopyName = $responseCopyTemplate.name
-        $responseCopyRegion = $responseCopyTemplate.region
+        if ($responseCopyTemplate) {
+            
+            Write-Host $responseCopyTemplate -ForegroundColor Green
+            
+            # Set variables based on response values
+            $responseCopyId = $responseCopyTemplate.id
+            $responseCopyName = $responseCopyTemplate.name
+            $responseCopyRegion = $responseCopyTemplate.region
 
-        if ($responseCopyId) {
-            Write-Host "[ Step 1/3 ] Template successfully queued for copy!" -ForegroundColor Cyan
+            if ($responseCopyId) {
+                Write-Host "[ Step 1/3 ] Template successfully queued for copy" -ForegroundColor Cyan
+            } else {
+                Write-Host "An error occurred while attempting to copy the template via API." -ForegroundColor Red
+            }
+
+            # Begin owner change process
+            $responseChangeOwner = Set-TemplateOwner -basic_auth $base64AuthInfo -template_id $responseCopyId -target_owner $ConfigFile.Settings.Template.NewOwnerID
+
+            if ($responseChangeOwner) {
+                Write-Host "[ Step 2/3 ] Owner successfully updated to ${ConfigFile.Settings.Template.NewOwnerID}" -ForegroundColor Cyan
+            } else {
+                Write-Host "An error occurred while attempting to change the owner via API." -ForegroundColor Red
+            }
+
+            # Begin name change process
+            $copyNameBase = $responseCopyName.TrimStart("US ")
+            $copyNameBase = $copyNameBase.TrimEnd(" ${env} - Copy")
+            $copyNewName = "${region} - ${copyNameBase} ${env}"
+            $responseChangeName = Set-TemplateName -basic_auth $base64AuthInfo -template_id $responseCopyId -new_name
+
         } else {
-            Write-Host "An error occurred while attempting to copy the template via API." - -ForegroundColor Red
+            Write-Host "No response was received from the API call." -ForegroundColor Red
         }
 
-        # Begin owner change process
-
-        # Begin name change process
-
-    } else {
-        Write-Host "No response was received from the API call." -ForegroundColor Red
     }
-
-    
 
 }
 
