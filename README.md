@@ -11,5 +11,5 @@ Be sure to change [config.xml.template](config.xml.template) to `config.xml` and
 1. Loop through each `<Env>` in `<Environments></Environments>` within [config.xml.template](config.xml.template).
 1. `Set-TemplateCopy` to begin copying the template right off the bat.  _If an `id` and `name` value is returned, the copy process has begun._
 1. `Set-TemplateOwner` to be the User ID of the new owner.
-1. `Set-TemplateName` to be the new name of the Template.  _This means changing the preceding region and preceding ` - Copy` tags._
+1. `Set-TemplateName` to be the new name of the Template.  _This means changing the region and ending ` - Copy` tags._
 1. `Set-TemplateProject` to be the proper region and environment Project.
