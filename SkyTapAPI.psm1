@@ -28,7 +28,7 @@ function Set-TemplateCopy ([string]$basic_auth, [int]$template_id, [string]$targ
 function Set-TemplateOwner ([string]$basic_auth, [int]$template_id, [string]$target_owner) {
     
     # Set URI endpoint to send call to
-    $uri = "https://cloud.skytap.com/${template_id}.json"
+    $uri = "https://cloud.skytap.com/templates/${template_id}.json"
 
     # Set headers required for authentication and format
     $headers = @{"Accept" = "application/json"; Authorization=("Basic {0}" -f $basic_auth)}
@@ -45,7 +45,7 @@ function Set-TemplateOwner ([string]$basic_auth, [int]$template_id, [string]$tar
 function Set-TemplateName ([string]$basic_auth, [int]$template_id, [string]$new_name) {
 
     # Set URI endpoint to send call to
-    $uri = "https://cloud.skytap.com/template/${template_id}?name=${new_name}"
+    $uri = "https://cloud.skytap.com/templates/${template_id}?name=${new_name}"
 
     # Set headers required for authentication and format
     $headers = @{"Accept" = "application/json"; Authorization=("Basic {0}" -f $basic_auth)}
@@ -55,7 +55,35 @@ function Set-TemplateName ([string]$basic_auth, [int]$template_id, [string]$new_
 
 }
 
+function Set-TemplateProject ([string]$basic_auth, [int]$template_id, [int]$project_id) {
+
+    # Set URI endpoint to send call to
+    $uri = "https://cloud.skytap.com/projects/${project_id}/templates/${template_id}"
+
+    # Set headers required for authentication and format
+    $headers = @{"Accept" = "application/json"; Authorization=("Basic {0}" -f $basic_auth)}
+
+    # Send the API call
+    Invoke-RestMethod -Uri $uri -Method POST -ContentType "application/json" -Headers $headers
+
+}
+
+function Remove-TemplateProject ([string]$basic_auth, [int]$template_id, [int]$project_id) {
+
+    # Set URI endpoint to send call to
+    $uri = "https://cloud.skytap.com/projects/${project_id}/templates/${template_id}"
+
+    # Set headers required for authentication and format
+    $headers = @{"Accept" = "application/json"; Authorization=("Basic {0}" -f $basic_auth)}
+
+    # Send the API call
+    Invoke-RestMethod -Uri $uri -Method DEL -ContentType "application/json" -Headers $headers
+
+}
+
 Export-ModuleMember -Function Set-SkyTapAuth
 Export-ModuleMember -Function Set-TemplateCopy
 Export-ModuleMember -Function Set-TemplateName
 Export-ModuleMember -Function Set-TemplateOwner
+Export-ModuleMember -Function Set-TemplateProject
+Export-ModuleMember -Function Remove-TemplateProject
