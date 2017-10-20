@@ -1,19 +1,52 @@
 <?xml version="1.0"?>
 <Settings>
     <Authentication>
+        <!--
+        To find your SkyTap API authentication information,
+        login to https://cloud.skytap.com as your user
+        account you'll be authenticating with.  Select
+        "My Account" from the upper-right corner and you can
+        show your API Key from there.
+        -->
         <SkyTapAPIUser>YourSkyTapUsername</SkyTapAPIUser>
         <SkyTapAPIPass>YourSkyTapAPIKey</SkyTapAPIPass>
     </Authentication>
     <Template>
+        <!-- Template ID to copy -->
         <CopyID>1167853</CopyID>
+        <!-- User ID of owner to set on copied template -->
         <NewOwnerID>80356</NewOwnerID>
+        <!-- 
+        The below Regions and Environments sections
+        are used in a ForEach loop in the script.
+        Each listed Region and/or Environment will
+        be iterated through.
+        Comment out Regions or Environments you do
+        not want processed.
+        -->
         <Regions>
             <Region1>EMEA</Region1>
-            <Region2>APAC</Region2>
+            <!--<Region2>APAC</Region2>-->
         </Regions>
         <Environments>
             <Env1>DEV</Env1>
-            <Env2>QA</Env2>
-            <Env3>GA</Env3>
+            <!--<Env2>QA</Env2>-->
+            <!--<Env3>GA</Env3>-->
         </Environments>
+        <Projects>
+            <!--
+            These are the Project IDs of each Project we'll
+            be copying templates to.
+            ONLY CHANGE THESE IF THE PROJECT ID CHANGES!
+            -->
+            <APACDev>112670</APACDev>
+            <APACQA>102350</APACQA>
+            <APACGA>102346</APACGA>
+            <EMEADev>112668</EMEADev>
+            <EMEAQA>102356</EMEAQA>
+            <EMEAGA>102348</EMEAGA>
+            <USDev>112666</USDev>
+            <USQA>000000</USQA>
+            <USGA>102338</USGA>
+        </Projects>
 </Settings>
