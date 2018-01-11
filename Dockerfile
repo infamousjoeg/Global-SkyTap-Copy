@@ -1,4 +1,4 @@
-FROM microsoft/microsoft/mssql-server-linux:latest
+FROM microsoft/mssql-server-linux:latest
 LABEL maintainer="Joe.Garcia@cyberark.com" \
       release-date="2018-01-10"
 
