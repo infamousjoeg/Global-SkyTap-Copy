@@ -6,6 +6,15 @@ Automated SkyTap Master Template copy to necessary regions and environments.
 
 Be sure to change [config.template.xml](config.template.xml) to `config.xml` and update the settings within before running the Docker container.
 
+## Current Development Status
+
+### Initial Test Release
+
+```docker
+docker build -t nfmsjoeg/gsc:latest .
+docker run -it --name gsc nfmsjoeg/gsc:latest
+```
+
 ## Technical Walkthrough
 
 The idea is to create [gsc.ps1](gsc.ps1) as the `ENTRYPOINT` in a Microsoft SQL Server for Linux Docker container that kicks off the PowerShell script to process the automated copy.
