@@ -37,6 +37,7 @@ This database will hold the following data:
   * Idea: Give Region/Env options on left side and add to right side as selected
 * Check runstate of all VMs associated with Master Environment
   * If runstate is running, change to suspended
+* Update Master Environment name to include current date
 * Save Master Environment as a Template
 * Add new Master Template to Master Project
 * Remove old Master Template from Master Project
