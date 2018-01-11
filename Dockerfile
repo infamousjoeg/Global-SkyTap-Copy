@@ -16,4 +16,4 @@ COPY . /etc/gsc
 
 WORKDIR /etc/gsc
 
-ENTRYPOINT ["pwsh -NoProfile -Command ./gsc.ps1"]
+ENTRYPOINT pwsh -NoProfile -Command "./gsc.ps1"
