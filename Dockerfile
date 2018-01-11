@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y curl \
  && apt-get update && apt-get install -y powershell \
  && rm -rf /var/lib/apt/lists/*
  
-RUN pwsh Set-PSRepository -Name "PSGallery" -InstallationPolicy "Trusted"; Install-Module PoShSkyTap
+RUN pwsh -NoProfile -Command "Set-PSRepository -Name PSGallery -InstallationPolicy Trusted; Install-Module PoShSkyTap"
 
 COPY . /etc/gsc
 
