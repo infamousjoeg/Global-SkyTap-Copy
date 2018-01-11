@@ -7,8 +7,9 @@ RUN apt-get update && apt-get install -y curl \
       apt-key add - \
  && curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list | \
       tee /etc/apt/sources.list.d/microsoft.list \
+ && apt-get update && apt-get install -y powershell \
  && rm -rf /var/lib/apt/lists/*
-
+ 
 RUN pwsh Set-PSRepository -Name "PSGallery" -InstallationPolicy "Trusted"; Install-Module PoShSkyTap
 
 COPY . /etc/gsc
