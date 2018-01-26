@@ -65,3 +65,5 @@ This database will hold the following data:
 * Jenkins Pipeline with SkyTap Tag triggering advancement of pipeline
   * eg. PROD READY tagged to Master Environment
     * Last task would remove tag
+* Ability to add VMs to Environment based on Conjur Demo needs
+  * eg. Add CDEMO VM into environment as needed for Conjur demos
