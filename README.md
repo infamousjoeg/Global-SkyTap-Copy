@@ -15,6 +15,46 @@ docker build -t nfmsjoeg/gsc:latest .
 docker run -it --name gsc nfmsjoeg/gsc:latest
 ```
 
+###### GlobalCopyScript_Example.ps
+
+```powershell
+# Install PoShSkyTap Module on PowerShell v5+
+Install-Module PoShSkyTap
+
+# Import PoShSkyTap Module
+Import-Module PoShSkyTap
+
+# List available commands
+Get-Command -Module PoShSkyTap
+
+CommandType     Name                                               Version    Source
+-----------     ----                                               -------    ------
+Function        Get-TemplateStatus                                 1.0.1      poshskytap
+Function        Set-SkyTapAuth                                     1.0.1      poshskytap
+Function        Set-TemplateCopy                                   1.0.1      poshskytap
+Function        Set-TemplateName                                   1.0.1      poshskytap
+Function        Set-TemplateOwner                                  1.0.1      poshskytap
+Function        Set-TemplateProject                                1.0.1      poshskytap
+
+# Setup SkyTap API Authentication
+$authToken = Set-SkyTapAuth -Username $EmailAddressForSkyTap -APIKey $APIKeyFromSkyTap
+
+# Start template copy process / TemplateID is the template to copy
+Set-TemplateCopy -SkyTapAuth $authToken -TemplateID "123456" -TargetRegion "EMEA"
+
+# This will return JSON output of the new Template created by the copy
+# Copy the "TemplateID" as that will be the copy's ID going forward
+
+# Change template name / TemplateID is the new template that was just created
+Set-TemplateName -SkyTapAuth $authToken -TemplateID "654321" -TemplateName "EMEA CyberArk Global Demo v10_GA"
+
+# Change template owner / OwnerID is the user ID of the new owner
+Set-TemplateOwner -SkyTapAuth $authToken -TemplateID "654321" -OwnerID "1234"
+
+# Change template project / ProjectID is the id of the project to move to
+Set-TemplateProject -SkyTapAuth $authToken -TemplateID "654321" -ProjectID "56789"
+```
+
 ## Technical Walkthrough
 
 The idea is to create [gsc.ps1](gsc.ps1) as the `ENTRYPOINT` in a Microsoft SQL Server for Linux Docker container that kicks off the PowerShell script to process the automated copy.
