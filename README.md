@@ -17,6 +17,8 @@ docker run -it --name gsc nfmsjoeg/gsc:latest
 
 ###### GlobalCopyScript_Example.ps
 
+[https://gist.github.com/infamousjoeg/13fc8766304393d9f4ddd69234b0ccc7](https://gist.github.com/infamousjoeg/13fc8766304393d9f4ddd69234b0ccc7)
+
 ```powershell
 # Install PoShSkyTap Module on PowerShell v5+
 Install-Module PoShSkyTap
