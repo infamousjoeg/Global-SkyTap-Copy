@@ -29,14 +29,14 @@ Import-Module PoShSkyTap
 # List available commands
 Get-Command -Module PoShSkyTap
 
-CommandType     Name                                               Version    Source
------------     ----                                               -------    ------
-Function        Get-TemplateStatus                                 1.0.1      poshskytap
-Function        Set-SkyTapAuth                                     1.0.1      poshskytap
-Function        Set-TemplateCopy                                   1.0.1      poshskytap
-Function        Set-TemplateName                                   1.0.1      poshskytap
-Function        Set-TemplateOwner                                  1.0.1      poshskytap
-Function        Set-TemplateProject                                1.0.1      poshskytap
+# CommandType     Name                                               Version    Source
+# -----------     ----                                               -------    ------
+# Function        Get-TemplateStatus                                 1.0.1      poshskytap
+# Function        Set-SkyTapAuth                                     1.0.1      poshskytap
+# Function        Set-TemplateCopy                                   1.0.1      poshskytap
+# Function        Set-TemplateName                                   1.0.1      poshskytap
+# Function        Set-TemplateOwner                                  1.0.1      poshskytap
+# Function        Set-TemplateProject                                1.0.1      poshskytap
 
 # Setup SkyTap API Authentication
 $authToken = Set-SkyTapAuth -Username $EmailAddressForSkyTap -APIKey $APIKeyFromSkyTap
