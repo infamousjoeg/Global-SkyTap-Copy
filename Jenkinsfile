@@ -15,6 +15,7 @@ pipeline {
             steps {
                 sh 'chmod a+x test.sh'
                 sh './test.sh'
+                sh 'cat test.log'
             }
         }
         stage ('Commit GSC as Latest') {
