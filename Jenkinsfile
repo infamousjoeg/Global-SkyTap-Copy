@@ -13,6 +13,7 @@ pipeline {
         }
         stage ('Test GSC') {
             steps {
+                sh 'chmod a+x test.sh'
                 sh './test.sh'
             }
         }
