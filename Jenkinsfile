@@ -24,7 +24,7 @@ pipeline {
         }
         stage ('Clean Up Workspace') {
             steps {
-                # sh 'docker rm -f gsc_test'
+                // sh 'docker rm -f gsc_test'
                 
                 sh 'docker rmi nfmsjoeg/gsc:test'
             }
