@@ -10,10 +10,6 @@
     
   - !layer
   
-  - !grant
-    role: !layer
-    member: !host jenkins/master
-  
   - !permit
     role: !layer
     privileges: [ read, execute ]
