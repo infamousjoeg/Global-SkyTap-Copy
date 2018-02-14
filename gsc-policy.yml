@@ -1,0 +1,20 @@
+- !policy
+  id: gsc
+  owner: !group security_admin
+  annotations:
+    description: Global SkyTap Copy for migrating templates across datacenters
+  body:
+  - &variables
+    - !variable skytap/username
+    - !variable skytap/password
+    
+  - !layer
+  
+  - !grant
+    role: !layer
+    member: !host jenkins/master
+  
+  - !permit
+    role: !layer
+    privileges: [ read, execute ]
+    resource: *variables
