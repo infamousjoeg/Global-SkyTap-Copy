@@ -19,7 +19,7 @@ pipeline {
         }
         stage ('Commit GSC as Latest') {
             steps {
-                sh 'docker commit nfmsjoeg/gsc:test nfmsjoeg/gsc:latest'
+                sh 'docker commit gsc_test nfmsjoeg/gsc:latest'
             }
         }
         stage ('Clean Up Workspace') {
