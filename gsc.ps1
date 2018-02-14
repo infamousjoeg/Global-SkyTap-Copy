@@ -8,3 +8,14 @@ if ($chkPSModule.Version) {
 } else {
     Write-Host "PoShSkyTap was not installed successfully." -ForegroundColor Red
 }
+
+if ($env:SKYTAP_USER && $env:SKYTAP_PASS) {
+    $authToken = Set-SkyTapAuth -Username $env:SKYTAP_USER -Password $env:SKYTAP_PASS
+    if ($authToken) {
+        Write-Host "Authorization Token is: ${authToken}" -ForegroundColor Green
+    } else {
+        Write-Host "Authorization failed." -ForegroundColor Red
+    }
+} else {
+    Write-Host "No SKYTAP_USER or SKYTAP_PASS environment variables found." -ForegroundColor Red
+}
