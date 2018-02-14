@@ -13,12 +13,12 @@ pipeline {
         }
         stage ('Test GSC') {
             steps {
-                sh 'summon docker run --name gsc_test -d -e "SKYTAP_USER=$SKYTAP_USER" -e "SKYTAP_PASS=$SKYTAP_PASS" nfmsjoeg/gsc:test'
+                sh 'summon docker run --name gsc_test -d -e "SKYTAP_USER=$SKYTAP_USER" -e "SKYTAP_PASS=$SKYTAP_PASS" -e "SKYTAP_REGION=$SKYTAP_REGION" nfmsjoeg/gsc:test'
             }
         }
-        stage ('Tag GSC as Latest') {
+        stage ('Commit GSC as Latest') {
             steps {
-                sh 'docker tag nfmsjoeg/gsc:test nfmsjoeg/gsc:latest'
+                sh 'docker commit nfmsjoeg/gsc:test nfmsjoeg/gsc:latest'
             }
         }
         stage ('Clean Up Workspace') {
