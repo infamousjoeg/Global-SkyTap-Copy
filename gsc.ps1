@@ -12,7 +12,7 @@ if ($chkPSModule.Version) {
 if ($env:SKYTAP_USER && $env:SKYTAP_PASS) {
     $authToken = Set-SkyTapAuth -Username $env:SKYTAP_USER -Password $env:SKYTAP_PASS
     if ($authToken) {
-        Write-Host "Authorization Token is: ${authToken}" -ForegroundColor Green
+        Write-Host "SkyTap API Authorization Token is: ${authToken}" -ForegroundColor Green
     } else {
         Write-Host "Authorization failed." -ForegroundColor Red
     }
