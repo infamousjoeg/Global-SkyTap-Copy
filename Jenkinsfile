@@ -26,7 +26,7 @@ pipeline {
             steps {
                 sh 'docker rm -f gsc_test'
                 sh 'docker rmi nfmsjoeg/gsc:test'
-                sh "docker rmi $(docker images | grep none | awk '/ / { print \$3 }')"
+                sh 'docker rmi $(docker images | grep none | awk \'/ / { print \$3 }\')'
             }
         }
     }
