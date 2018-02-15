@@ -13,8 +13,7 @@ pipeline {
         }
         stage ('Test GSC') {
             steps {
-                sh 'chmod a+x test.sh'
-                sh './test.sh'
+                sh 'chmod a+x test.sh && ./test.sh'
                 sh 'cat test.log'
             }
         }
@@ -27,6 +26,7 @@ pipeline {
             steps {
                 sh 'docker rm -f gsc_test'
                 sh 'docker rmi nfmsjoeg/gsc:test'
+                sh "docker rmi $(docker images | grep none | awk '/ / { print $3 }')"
             }
         }
     }
