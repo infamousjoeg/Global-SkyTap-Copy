@@ -6,23 +6,23 @@ pipeline {
     }
 
     stages {
-        stage ('Build GSC') {
+        stage ('Build Docker Image') {
             steps {
                 sh 'docker build -t nfmsjoeg/gsc:test .'
             }
         }
-        stage ('Test GSC') {
+        stage ('Test Docker Container') {
             steps {
                 sh 'chmod a+x test.sh && ./test.sh'
                 sh 'cat test.log'
             }
         }
-        stage ('Commit GSC as Latest') {
+        stage ('Commit Docker Image as Latest') {
             steps {
                 sh 'docker commit gsc_test nfmsjoeg/gsc:latest'
             }
         }
-        stage ('Clean Up Workspace') {
+        stage ('Clean Up Docker Host') {
             steps {
                 sh 'docker rm -f gsc_test'
                 sh 'docker rmi nfmsjoeg/gsc:test'
