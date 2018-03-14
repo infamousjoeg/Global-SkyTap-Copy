@@ -1,15 +1,75 @@
 Import-Module PoShSkyTap
 
-$chkPSModule = Get-Module PoShSkyTap
-
-if ($chkPSModule.Version) {
-    Write-Host "PoShSkyTap is installed." -ForegroundColor Yellow
-    Write-Host "Version Installed:" $chkPSModule.Version -ForegroundColor Yellow
-} else {
+if (!$(Get-Module PoShSkyTap).Version) {
     Write-Host "PoShSkyTap was not installed successfully." -ForegroundColor Red
+    exit
 }
 
-#[xml]ConfigFile = Get-Content -Path "skytap.cred.xml"
-#$authSkyTap = Set-SkyTapAuth -Username $ConfigFile.SkyTap.Credentials.Username -APIKey $ConfigFile.SkyTap.Credentials.Password
+[xml]$ConfigFile = Get-Content -Path "/etc/gsc/skytap.cred.xml"
+$authSkyTap = Set-SkyTapAuth -Username $ConfigFile.SkyTap.Credentials.Username -APIKey $ConfigFile.SkyTap.Credentials.Password
 
-Write-Host $(Read-Host "Enter any input for return")
+$masterTemplateID = Read-Host "Please enter the master Template's ID"
+$targetRegion = Read-Host "Please enter region to copy to [ US-East | EMEA* | APAC ]"
+if (!$targetRegion) { $targetRegion = "EMEA" }
+elseif ($targetRegion -ne "US-East" -and $targetRegion -ne "EMEA" -and $targetRegion -ne "APAC") { Write-Host "Choose correctly."; exit }
+$targetEnv = Read-Host "Please enter the environment to copy to [ DEV | QA | GA* ]"
+if (!$targetEnv) { $targetEnv = "GA" }
+
+$r_TemplateCopy = Set-TemplateCopy -SkyTapAuth $authSkyTap -TemplateID $masterTemplateID -TargetRegion $targetRegion | ConvertFrom-Json
+
+$copyTemplateID = $r_TemplateCopy.id
+
+if (!$copyTemplateID) { Write-Host "Error occured trying to start copy."; exit}
+
+Write-Host "Copy process started.  New Template ID: ${copyTemplateID}" - -ForegroundColor Green
+
+$r_TemplateName = Set-TemplateName -SkyTapAuth $authSkyTap -TemplateID $copyTemplateID -TemplateName "${targetRegion} CyberArk Global Demo v10_${targetEnv}" | ConvertFrom-Json
+
+$copyTemplateName = $r_TemplateName.name
+
+if ($copyTemplateName) { Write-Host "Set template name to: ${copyTemplateName" -ForegroundColor Green }" }
+else { Write-Host "Template name not set correctly."; exit }
+
+switch ($targetRegion) {
+    "US-East" { $ownerID = "279622" }
+    "EMEA" { $ownerID = "279620" }
+    "APAC" { $ownerID = "279618" }
+}
+
+$r_TemplateOwner = Set-TemplateOwner -SkyTapAuth $authSkyTap -TemplateID $copyTemplateID -OwnerID $ownerID | ConvertFrom-Json
+
+if ($r_TemplateOwner.owner -ne $ownerID) { Write-Host "Error occurred assigning ownership."; exit }
+
+Write-Host "Set Owner to: ${ownerID}" -ForegroundColor Green
+
+switch ($targetRegion) {
+    "US-East" {
+        switch ($targetEnv) {
+            "DEV" { $projectID = "112666" }
+            "QA" { $projectID = "102336" }
+            "GA" { $projectID = "102338" }
+        }
+    }
+    "EMEA" {
+        switch ($targetEnv) {
+            "DEV" { $projectID = "112668" }
+            "QA" { $projectID = "102356" }
+            "GA" { $projectID = "102348" }
+        }
+    }
+    "APAC" {
+        switch ($targetEnv) {
+            "DEV" { $projectID = "112670" }
+            "QA" { $projectID = "102350" }
+            "GA" { $projectID = "102346" }
+        }
+    }
+}
+
+$r_TemplateProject = Set-TemplateProject -SkyTapAuth $authSkyTap -TemplateID $copyTemplateID -ProjectID $projectID | ConvertFrom-Json
+
+$projectName = $r_TemplateProject.name 
+
+Write-Host "Added template to project: ${projectName}" -ForegroundColor Green
+
+Write-Host "Script complete." -ForegroundColor Yellow
