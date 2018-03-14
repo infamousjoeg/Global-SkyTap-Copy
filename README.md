@@ -4,15 +4,20 @@
 
 Automated SkyTap Master Template copy to necessary regions and environments.
 
-Be sure to change [config.template.xml](config.template.xml) to `config.xml` and update the settings within before running the Docker container.
+[![CyberArk Ready](https://img.shields.io/badge/CyberArk-ready-blue.svg)](https://www.cyberark.com) ![Docker Automated Build](https://img.shields.io/docker/automated/nfmsjoeg/gsc.svg) 
+![Docker Build Status](https://img.shields.io/docker/build/nfmsjoeg/gsc.svg)
+
+
+## Pre-Requisites
+
+Be sure to change [skytap.cred.template.xml](skytap.cred.template.xml) to `skytap.cred.xml` and update the settings within before running the Docker container.
 
 ## Current Development Status
 
-### Initial Test Release
+### Initial Release
 
 ```docker
-docker build -t nfmsjoeg/gsc:latest .
-docker run -it --name gsc nfmsjoeg/gsc:latest
+docker run --rm -it nfmsjoeg/gsc
 ```
 
 ###### GlobalCopyScript_Example.ps
@@ -67,39 +72,8 @@ The Docker container uses [MSSQL-Server-Linux](https://hub.docker.com/r/microsof
 
 It then copies everything from this repository into the `WORKDIR` of `/etc/gsc` and sets the `ENTRYPOINT` as [gsc.ps1](gsc.ps1).
 
-### Microsoft SQL Server
-
-This database will hold the following data:
-
-* Everything that is in [config.template.xml](config.template.xml) will be converted to a `.sql` file and copied with the rest of this repository.
-  * This `.sql` file will be executed initially during the Docker `BUILD` to set the stage.
-* It may come to be through development that this is used more than that, but it is yet to be seen.  I just like it better than an external XML file. :metal:
-
-### gsc.ps1
-
-* Detects/Installs/Imports [PoShSkyTap](https://www.powershellgallery.com/Packages/PoShSkyTap)
-* Switches from TLS1.0 to TLS1.2
-* Reads in [config.xml](config.xml)
-* Creates Base64-encoded token for SkyTap API authentication
-
 ### Active Development
 
-* Collect user input: Regions and Environments to copy to
-  * Idea: Give Region/Env options on left side and add to right side as selected
-* Check runstate of all VMs associated with Master Environment
-  * If runstate is running, change to suspended
-* Update Master Environment name to include current date
-* Save Master Environment as a Template
-* Add new Master Template to Master Project
-* Remove old Master Template from Master Project
-* Change `Settings.SkyTap.Master.TemplateID` in [config.xml](config.xml) from the old Master TemplateID to the new Master TemplateID for future copies
-* Loop through Regions and Environments given by User Input
-  * Begin copy of Master Template to new region
-  * Update name to reflect proper region and environment
-    * `{REGION}` CyberArk Global Demo v10_`{ENV}`
-    * US CyberArk Global Demo v10_GA
-  * Update owner to `Settings.SkyTap.Owners.{REGION}.{ENV}`
-  * Add new template to `Settings.SkyTap.Projects.{REGION}.{ENV}`
 * Send notification to Slack/Skype/Email/SMS once script is completed
 
 ## Desired Development
