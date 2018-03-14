@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SkyTap>
+    <Credentials>
+        <Username>Joseph.Garcia@cyberark.com</Username>
+        <Password>INSERTAPIKEY</Password>
+    </Credentials>
+</SkyTap>
