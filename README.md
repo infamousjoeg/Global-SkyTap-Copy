@@ -17,7 +17,7 @@ Be sure to change [skytap.cred.template.xml](skytap.cred.template.xml) to `skyta
 ### Initial Release
 
 ```docker
-docker run --rm -it nfmsjoeg/gsc
+docker run --rm -it -v ./:/etc/gsc nfmsjoeg/gsc
 ```
 
 ###### GlobalCopyScript_Example.ps
