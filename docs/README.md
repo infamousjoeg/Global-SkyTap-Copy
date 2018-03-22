@@ -12,12 +12,18 @@ Automated SkyTap Master Template copy to necessary regions and environments.
 
 Be sure to change [skytap.cred.template.xml](skytap.cred.template.xml) to `skytap.cred.xml` and update the settings within before running the Docker container.
 
+You'll need Docker CE, the easiest way to install it is:
+
+```bash
+curl -fsSL get.docker.com -o get-docker.sh && ./get-docker.sh
+```
+
 ## Current Development Status
 
 ### Initial Release
 
 ```docker
-docker run --rm -it -v ./:/etc/gsc nfmsjoeg/gsc
+docker run --rm -it -v $(pwd):/etc/gsc nfmsjoeg/gsc
 ```
 
 ###### GlobalCopyScript_Example.ps
