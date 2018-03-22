@@ -15,8 +15,7 @@ Be sure to change [skytap.cred.template.xml](skytap.cred.template.xml) to `skyta
 You'll need Docker CE, the easiest way to install it is:
 
 ```bash
-curl -fsSL get.docker.com -o get-docker.sh
-./get-docker.sh
+curl -fsSL get.docker.com -o get-docker.sh && ./get-docker.sh
 ```
 
 ## Current Development Status
