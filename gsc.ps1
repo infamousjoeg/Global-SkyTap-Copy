@@ -11,9 +11,9 @@ $authSkyTap = Set-SkyTapAuth -Username $ConfigFile.SkyTap.Credentials.Username -
 # User Input
 Write-Host "--------------------------" - -ForegroundColor Yellow
 $masterTemplateID = Read-Host "Please enter the master Template's ID"
-$targetRegion = Read-Host "Please enter region to copy to [ US-East | EMEA* | APAC ]"
+$targetRegion = Read-Host "Please enter region to copy to [ US-East | US-Central | EMEA* | APAC ]"
 if (!$targetRegion) { $targetRegion = "EMEA" }
-elseif ($targetRegion -ne "US-East" -and $targetRegion -ne "EMEA" -and $targetRegion -ne "APAC") { Write-Host "Choose correctly."; exit }
+elseif ($targetRegion -ne "US-East" -and $targetRegion -ne "US-Central" -and $targetRegion -ne "EMEA" -and $targetRegion -ne "APAC") { Write-Host "Choose correctly."; exit }
 $targetEnv = Read-Host "Please enter the environment to copy to [ DEV | QA* | GA ]"
 if (!$targetEnv) { $targetEnv = "QA" }
 elseif ($targetEnv -ne "GA" -and $targetEnv -ne "DEV" -and $targetEnv -ne "QA") { Write-Host "Choose correctly."; exit }
@@ -38,6 +38,7 @@ else { Write-Host "Template name not set correctly."; exit }
 # Set Template Owner
 switch ($targetRegion) {
     "US-East" { $ownerID = "279622" }
+    "US-Central" { $ownerID = "279522" }
     "EMEA" { $ownerID = "279620" }
     "APAC" { $ownerID = "279618" }
 }
@@ -50,6 +51,13 @@ Write-Host "Set Owner to: ${copyOwnerID}" -ForegroundColor Green
 
 switch ($targetRegion) {
     "US-East" {
+        switch ($targetEnv) {
+            "DEV" { $projectID = "112666" }
+            "QA" { $projectID = "102336" }
+            "GA" { $projectID = "102338" }
+        }
+    }
+    "US-Central" {
         switch ($targetEnv) {
             "DEV" { $projectID = "112666" }
             "QA" { $projectID = "102336" }
