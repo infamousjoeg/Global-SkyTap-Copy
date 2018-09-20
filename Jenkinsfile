@@ -13,7 +13,12 @@ pipeline {
         }
         stage ('Test Docker Container') {
             steps {
-                sh 'chmod a+x test.sh && ./test.sh'
+                sh '''
+                    set +x
+                    chmod a+x test.sh
+                    ./test.sh
+                    set -x
+                '''
                 sh 'cat test.log'
             }
         }
