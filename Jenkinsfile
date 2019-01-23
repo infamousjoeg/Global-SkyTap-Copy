@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    triggers {
-        pollSCM('H * * * *')
-    }
-
     stages {
         stage ('Build Docker Image') {
             steps {
@@ -12,14 +8,14 @@ pipeline {
             }
         }
         stage ('Test Docker Container') {
-            steps {
-                sh '''
-                    set +x
-                    chmod a+x test.sh
-                    ./test.sh
-                    set -x
-                '''
-                sh 'cat test.log'
+            withCredentials([conjurSecretCredential(credentialsId: 'gsc/skytap/username', variable: 'username'), conjurSecretCredential(credentialsId: 'gsc/skytap/password', variable: 'password')]) {
+                steps {
+                    sh '''
+                        docker run --name gsc_test -i -e SKYTAP_USER=$username -e SKYTAP_PASS=$password -e SKYTAP_REGION="US Central" nfmsjoeg/gsc:test > test.log
+                        docker rm -f gsc_test
+                    '''
+                    sh 'cat test.log'
+                }
             }
         }
         stage ('Commit Docker Image as Latest') {
@@ -29,7 +25,6 @@ pipeline {
         }
         stage ('Clean Up Docker Host') {
             steps {
-                sh 'docker rm -f gsc_test'
                 sh 'docker rmi nfmsjoeg/gsc:test'
                 sh 'docker rmi $(docker images | grep none | awk \'/ / { print \$3 }\')'
             }

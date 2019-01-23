@@ -1,3 +1,0 @@
-- !grant
-  role: !layer gsc
-  member: !layer jenkins
