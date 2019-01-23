@@ -8,7 +8,7 @@ pipeline {
             }
         }
         stage ('Test Docker Container') {
-            withCredentials([conjurSecretCredential(credentialsId: 'gsc/skytap/username', variable: 'username'), conjurSecretCredential(credentialsId: 'gsc/skytap/password', variable: 'password')]) {
+            withCredentials([conjurSecretCredential(credentialsId: 'gsc//username', variable: 'username'), conjurSecretCredential(credentialsId: 'gsc/password', variable: 'password')]) {
                 steps {
                     sh '''
                         docker run --name gsc_test -i -e SKYTAP_USER=$username -e SKYTAP_PASS=$password -e SKYTAP_REGION="US Central" nfmsjoeg/gsc:test > test.log
