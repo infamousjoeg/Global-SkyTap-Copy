@@ -9,10 +9,8 @@ if ($chkPSModule.Version) {
     Write-Host "PoShSkyTap was not installed successfully." -ForegroundColor Red
 }
 
-if ($env:SKYTAP_USER -and $env:SKYTAP_PASS -and $env:SKYTAP_REGION) {
+if ($env:SKYTAP_USER -and $env:SKYTAP_PASS -and $env:SKYTAP_REGION -and $env:SKYTAP_USER -ne "****" -and $env:SKYTAP_PASS -ne "****") {
     $authToken = Set-SkyTapAuth -Username $env:SKYTAP_USER -APIKey $env:SKYTAP_PASS
-    Write-Host "Username: ${env:SKYTAP_USER}"
-    Write-Host "Password: ${env:SKYTAP_PASS}"
     if ($authToken) {
         Write-Host "SkyTap API Authorization Token is: ${authToken}" -ForegroundColor Green
         Write-Host "The targeted region is: ${env:SKYTAP_REGION}" -ForegroundColor Yellow
