@@ -1,0 +1,7 @@
+- !layer
+
+- !host jenkins.cyberarkdemo.example
+
+- !grant
+  role: !layer
+  member: !host jenkins.cyberarkdemo.example

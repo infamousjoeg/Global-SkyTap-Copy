@@ -1,2 +1,8 @@
 - !policy
+  id: jenkins-frontend
+
+- !policy
   id: gsc
+
+- !policy
+  id: github

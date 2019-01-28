@@ -1,0 +1,9 @@
+- &variables
+  - !variable username
+  - !variable personalaccesstoken
+
+- !permit
+  resources: *variables
+  privileges: [ read, execute ]
+  roles:
+    - !group /gsc/secrets-users
